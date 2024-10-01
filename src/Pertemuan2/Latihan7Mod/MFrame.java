@@ -17,7 +17,6 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
     private JTextField kotakNama;
     private JTextField kotakNoHp;
     private JButton tombolSimpan;
-    private JButton tombolReset;
     private JTextArea areaBiodata;
     private JCheckBox checkBox;
     private JRadioButton radio1;
@@ -40,6 +39,7 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitMenuItem = new JMenuItem("Exit");
+        JMenuItem resetMenu = new JMenuItem("Reset");
 
 
         //field nama
@@ -90,17 +90,11 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
         tombolSimpan.setBounds(15, 625, 100, 30);
         tombolSimpan.addActionListener(this);
 
-        //button reset
-        tombolReset = new JButton("Reset");
-        tombolReset.setBounds(150, 625, 100, 30);
-        tombolReset.addActionListener(this);
-
         // JTextArea field menampung nilai
         areaBiodata = new JTextArea("");
         areaBiodata.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(areaBiodata);
         scrollPane.setBounds(15,515,280,100);
-
 
         // Slider
         JLabel sliderLabel = new JLabel("frekuensi transaksi perbulan : ");
@@ -122,21 +116,73 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
         calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.DATE, 1);
 
-        SpinnerDateModel model = new SpinnerDateModel(calendar.getTime(), null, null, calendar.DAY_OF_MONTH);
+        SpinnerDateModel model = new SpinnerDateModel(calendar.getTime(),
+                null,
+                null, calendar.DAY_OF_MONTH);
         spinner = new JSpinner(model);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinner, "dd-MM-yyyy");
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinner,
+                "dd-MM-yyyy");
         spinner.setEditor(dateEditor);
         spinner.setBounds(15, 205, 350, 30);
 
-
-
+        // Menambahkan menu dan mengatur logika pada MenuItem
         menuBar.add(fileMenu);
+        fileMenu.add(resetMenu);
         fileMenu.add(exitMenuItem);
         this.setJMenuBar(menuBar);
 
         exitMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+
+        resetMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int konfirmasi = JOptionPane.showConfirmDialog(null,
+                        "Apakah Anda yakin?",
+                        "Konfirmasi Reset Data", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (konfirmasi == JOptionPane.YES_OPTION) {
+                    boolean passwordBerhasil = false;
+
+                    while (!passwordBerhasil) {
+                        JPasswordField passwordField = new JPasswordField();
+                        int masukkanPassword = JOptionPane.showConfirmDialog(
+                                null,
+                                passwordField,
+                                "Masukkan Password Anda,",
+                                JOptionPane.OK_CANCEL_OPTION,
+                                JOptionPane.PLAIN_MESSAGE);
+
+                        if (masukkanPassword == JOptionPane.OK_OPTION) {
+                            char[] password = passwordField.getPassword();
+                            String passwordString = new String(password);
+
+                            if (passwordString.equals("PasswordKu")) {
+                                passwordBerhasil = true;
+                                kotakNama.setText("");
+                                kotakNoHp.setText("");
+                                radio1.setSelected(false);
+                                radio2.setSelected(false);
+                                checkBox.setSelected(false);
+                                listJenisTabungan.clearSelection();
+                                areaBiodata.setText("");
+
+                                JOptionPane.showMessageDialog(null,
+                                        "Berhasil Mereset Field",
+                                        "title", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(null,
+                                        "Password anda salah",
+                                        "peringatan", JOptionPane.WARNING_MESSAGE );
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
             }
         });
 
@@ -155,7 +201,6 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
         add(sliderLabel);
         add(slider);
         add(tombolSimpan);
-        add(tombolReset);
         add(scrollPane);
 
         setVisible(true);
@@ -176,94 +221,74 @@ public class MFrame extends JFrame implements ActionListener, ItemListener, Chan
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == tombolSimpan) {
-            JPasswordField passwordField = new JPasswordField();
+            boolean passwordBerhasil = false;
 
-            int masukkanPassword = JOptionPane.showConfirmDialog(
-                    this,
-                    passwordField,
-                    "Masukkan Password Anda,",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE);
+            while (!passwordBerhasil) {
+                JPasswordField passwordField = new JPasswordField();
+                int masukkanPassword = JOptionPane.showConfirmDialog(
+                        this,
+                        passwordField,
+                        "Masukkan Password Anda,",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);
 
-            if (masukkanPassword == JOptionPane.OK_OPTION) {
-                char[] password = passwordField.getPassword();
-                String passwordString = new String(password);
+                if (masukkanPassword == JOptionPane.OK_OPTION) {
+                    char[] password = passwordField.getPassword();
+                    String passwordString = new String(password);
 
-                if (passwordString.equals("PasswordKu")) {
-                    String nama = kotakNama.getText();
-                    String noHp = kotakNoHp.getText();
-                    Date tanggalLahir = (Date) spinner.getValue();
-                    String tanggal = new SimpleDateFormat("dd-MM-yyyy").format(tanggalLahir);
-                    String JK = "";
+                    if (passwordString.equals("PasswordKu")) {
+                        passwordBerhasil = true;
 
+                        String nama = kotakNama.getText();
+                        String noHp = kotakNoHp.getText();
+                        Date tanggalLahir = (Date) spinner.getValue();
+                        String tanggal = new SimpleDateFormat("dd-MM-yyyy").format(tanggalLahir);
+                        String JK = "";
 
-                    if (radio1.isSelected()) {
-                        JK = radio1.getText();
-                    }
-                    if (radio2.isSelected()) {
-                        JK = radio2.getText();
-                    }
+                        if (radio1.isSelected()) {
+                            JK = radio1.getText();
+                        }
+                        if (radio2.isSelected()) {
+                            JK = radio2.getText();
+                        }
 
-                    String dataTabungan;
-                    if (listJenisTabungan.getSelectedValue() != null) {
-                        dataTabungan = listJenisTabungan.getSelectedValue();
+                        String dataTabungan;
+                        if (listJenisTabungan.getSelectedValue() != null) {
+                            dataTabungan = listJenisTabungan.getSelectedValue();
+                        } else {
+                            dataTabungan = "Tidak ada tabungan yang dipilih";
+                        }
+
+                        String wnaStatus;
+                        if (isCheckBoxSelected) {
+                            wnaStatus = "WNA : Ya";
+                        } else {
+                            wnaStatus = "WNA : Bukan";
+                        }
+
+                        int frekuensiTransaksi = slider.getValue();
+
+                        String biodata = "Nama: " + nama +
+                                "\nNomor Telepon: " + noHp +
+                                "\n" + "Jenis Kelamin : " +
+                                JK + "\n" +
+                                wnaStatus + "\n" + "Tabungan yang dipilih : " +
+                                dataTabungan + "\n" + "Frekuensi Transaksi : " +
+                                frekuensiTransaksi + "$" + "\n" + "Tanggal Lahir : " +
+                                tanggal + "\n" + "=".repeat(30) + "\n";
+
+                        areaBiodata.append(biodata);
+
+                    JOptionPane.showMessageDialog(null,
+                            "Berhasil Menambah Data",
+                            "tittle", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        dataTabungan = "Tidak ada tabungan yang dipilih";
+                        JOptionPane.showMessageDialog(null,
+                                "Password Anda Salah",
+                                "Peringatan", JOptionPane.WARNING_MESSAGE);
                     }
-
-
-                    String wnaStatus;
-                    if (isCheckBoxSelected) {
-                        wnaStatus = "WNA : Ya";
-                    } else {
-                        wnaStatus = "WNA : Bukan";
-                    }
-                    int frekuensiTransaksi = slider.getValue();
-
-                    String biodata = "Nama: " + nama +
-                            "\nNomor Telepon: " + noHp +
-                            "\n" + "Jenis Kelamin : " +
-                            JK + "\n" +
-                            wnaStatus + "\n" + "Tabungan yang dipilih : " +
-                            dataTabungan + "\n" + "Frekuensi Transaksi : " +
-                            frekuensiTransaksi + "$" + "\n" + "Tanggal Lahir : " +
-                            tanggal + "\n" + "=".repeat(30) + "\n";
-
-
-                    areaBiodata.append(biodata);
-
-
-                }
-                JOptionPane.showMessageDialog(null, "Berhasil Menambah Data", "tittle", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-
-        if (e.getSource() == tombolReset) {
-            int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin?", "Konfirmasi", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            JPasswordField passwordField = new JPasswordField();
-
-            int masukkanPassword = JOptionPane.showConfirmDialog(
-                    this,
-                    passwordField,
-                    "Masukkan Password Anda,",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE);
-
-            if (masukkanPassword == JOptionPane.OK_OPTION) {
-                char[] password = passwordField.getPassword();
-                String passwordString = new String(password);
-
-                if (passwordString.equals("PasswordKu")) {
-                    if (konfirmasi == JOptionPane.YES_OPTION) {
-                        kotakNama.setText("");
-                        kotakNoHp.setText("");
-                        radio1.setSelected(false);
-                        radio2.setSelected(false);
-                        checkBox.setSelected(false);
-                        listJenisTabungan.clearSelection();
-                        areaBiodata.setText("");
-                    }
-                    JOptionPane.showMessageDialog(null, "Berhasil Mereset Field", "tittle", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    break;
                 }
             }
         }
