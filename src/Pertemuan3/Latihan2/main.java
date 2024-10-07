@@ -9,7 +9,5 @@ public class main {
         SwingUtilities.invokeLater(() -> {
             new HelloGridLayout();
         });
-
-//        HelloGridLayout layout = new HelloGridLayout();
     }
 }

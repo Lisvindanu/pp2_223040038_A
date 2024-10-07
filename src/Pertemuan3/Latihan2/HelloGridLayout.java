@@ -221,7 +221,7 @@ public class HelloGridLayout extends JFrame implements ActionListener {
             buttons[i].setEnabled(false);
         }
         textfield.setText("O Menang");
-        showDialog("X menang!", "X Menang! apakah anda ingin bermain lagi?");
+        showDialog("O menang!", "O Menang! apakah anda ingin bermain lagi?");
     }
 
 
