@@ -92,8 +92,8 @@ public class HelloGridLayout extends JFrame implements ActionListener {
             }
         });
 
-    timer.setRepeats(false);
-    timer.start();
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public void check() {
@@ -223,6 +223,4 @@ public class HelloGridLayout extends JFrame implements ActionListener {
         textfield.setText("O Menang");
         showDialog("O menang!", "O Menang! apakah anda ingin bermain lagi?");
     }
-
-
 }
