@@ -41,6 +41,8 @@ public class MyFrame implements WindowListener {
     @Override
     public void windowClosed(WindowEvent e) {
         System.out.println("Window Closed");
+        System.out.println("di Closed");
+
     }
 
     // dijalankan ketika windows di minimalkan
