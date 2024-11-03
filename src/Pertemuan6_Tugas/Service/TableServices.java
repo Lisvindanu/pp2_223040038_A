@@ -27,10 +27,11 @@ public class TableServices {
     public TableServices(DefaultTableModel tableModel, FormPanel formPanel) {
         this.tableModel = tableModel;
         this.formPanel = formPanel;
+        System.out.println("Model identity in TableServices: " + System.identityHashCode(tableModel));
     }
-public DefaultTableModel getTableModel() {
+    public DefaultTableModel getTableModel() {
         return tableModel;
-}
+    }
 
     private boolean validateInputs() {
         if (nama.isEmpty()) {
@@ -61,89 +62,76 @@ public DefaultTableModel getTableModel() {
     }
 
 
-    public void tambahDataKeTabel() {
-        nama = formPanel.getKotakNama().getText().trim();
-        noHp = formPanel.getKotakNoHp().getText().trim();
-        jenisKelamin = formPanel.getRadioPria().isSelected() ? "Pria" : "Wanita";
-        wargaNegaraAsing = formPanel.getCheckBox().isSelected() ? "Ya" : "Tidak";
-        jenisTabungan = formPanel.getListJenisTabungan().getSelectedValue();
-        frekuensiTransaksi = String.valueOf(formPanel.getSlider().getValue() + " Juta");
-        tanggalLahir = formPanel.getSpinner().getValue().toString();
-        pekerjaan = (String) formPanel.getComboBoxPekerjaan().getSelectedItem();
-        deskripsi = formPanel.getAreaDeskripsi().getText().trim();
-
-        if(validateInputs()) {
-            System.out.println("Nama: " + nama);
-            System.out.println("No HP: " + noHp);
-            System.out.println("Jenis Kelamin: " + jenisKelamin);
-            System.out.println("Warga Negara Asing: " + wargaNegaraAsing);
-            System.out.println("Jenis Tabungan: " + jenisTabungan);
-            System.out.println("Frekuensi Transaksi: " + frekuensiTransaksi);
-            System.out.println("Tanggal Lahir: " + tanggalLahir);
-            System.out.println("Pekerjaan: " + pekerjaan);
-            System.out.println("Deskripsi: " + deskripsi);
-
-
-        String[] data = {
-              nama, noHp, jenisKelamin, wargaNegaraAsing, jenisTabungan, frekuensiTransaksi, tanggalLahir, pekerjaan, deskripsi
-        };
-        tableModel.addRow(data);
-        System.out.println("baris ditambahkan " + tableModel.getRowCount());
-
-        String biodata = String.format("Nama: %s\nNo HP: %s\nJenis Kelamin: %s\nWarga Negara Asing: %s\n" +
-                "Jenis Tabungan: %s\nFrekuensi Transaksi: %s\nTanggal Lahir: %s\nPekerjaan: %s\nDeskripsi: %s",
-                 nama, noHp, jenisKelamin, wargaNegaraAsing, jenisTabungan, frekuensiTransaksi, tanggalLahir, pekerjaan, deskripsi);
-            saveDataToFile();
-            formPanel.getAreaBiodata().setText(biodata);
-            clearInput();
-    }
-    }
-
-    public void saveDataToFile() {
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter(new FileWriter("D:\\Kuliah Sem5\\Praktikum Pemrograman 2\\PP2\\data.txt"));
-            System.out.println("Menyimpan data...");
-
-            if (tableModel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Tidak ada data untuk disimpan.");
-                return;
-            }
-
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                StringBuilder row = new StringBuilder();
-                for (int j = 0; j < tableModel.getColumnCount(); j++) {
-                    row.append(tableModel.getValueAt(i, j)).append(", ");
-                }
-                String rowData = row.toString().replaceAll(", $", "");
-                System.out.println("Row to save: " + rowData); // Debug print
-                writer.write(rowData);
-                writer.newLine();
-            }
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage());
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-
-    public void hapusDataDariTabel() {
-        int barisDipilih = formPanel.getTable().getSelectedRow();
-        if(barisDipilih != -1){
-            tableModel.removeRow(barisDipilih);
-        }else {
-            JOptionPane.showMessageDialog(formPanel, "Silakan pilih data yang ingin dihapus.");
-        }
-    }
+//    public void tambahDataKeTabel() {
+//        nama = formPanel.getKotakNama().getText().trim();
+//        noHp = formPanel.getKotakNoHp().getText().trim();
+//        jenisKelamin = formPanel.getRadioPria().isSelected() ? "Pria" : "Wanita";
+//        wargaNegaraAsing = formPanel.getCheckBox().isSelected() ? "Ya" : "Tidak";
+//        jenisTabungan = formPanel.getListJenisTabungan().getSelectedValue();
+//        frekuensiTransaksi = String.valueOf(formPanel.getSlider().getValue() + " Juta");
+//        tanggalLahir = formPanel.getSpinner().getValue().toString();
+//        pekerjaan = (String) formPanel.getComboBoxPekerjaan().getSelectedItem();
+//        deskripsi = formPanel.getAreaDeskripsi().getText().trim();
+//
+//        if(validateInputs()) {
+//            System.out.println("Nama: " + nama);
+//            System.out.println("No HP: " + noHp);
+//            System.out.println("Jenis Kelamin: " + jenisKelamin);
+//            System.out.println("Warga Negara Asing: " + wargaNegaraAsing);
+//            System.out.println("Jenis Tabungan: " + jenisTabungan);
+//            System.out.println("Frekuensi Transaksi: " + frekuensiTransaksi);
+//            System.out.println("Tanggal Lahir: " + tanggalLahir);
+//            System.out.println("Pekerjaan: " + pekerjaan);
+//            System.out.println("Deskripsi: " + deskripsi);
+//
+//
+//            String[] data = {
+//                    nama, noHp, jenisKelamin, wargaNegaraAsing, jenisTabungan, frekuensiTransaksi, tanggalLahir, pekerjaan, deskripsi
+//            };
+//            tableModel.addRow(data);
+//            System.out.println("baris ditambahkan " + tableModel.getRowCount());
+//
+//            String biodata = String.format("Nama: %s\nNo HP: %s\nJenis Kelamin: %s\nWarga Negara Asing: %s\n" +
+//                            "Jenis Tabungan: %s\nFrekuensi Transaksi: %s\nTanggal Lahir: %s\nPekerjaan: %s\nDeskripsi: %s",
+//                    nama, noHp, jenisKelamin, wargaNegaraAsing, jenisTabungan, frekuensiTransaksi, tanggalLahir, pekerjaan, deskripsi);
+////            saveDataToFile();
+//            formPanel.getAreaBiodata().setText(biodata);
+//            clearInput();
+//        }
+//    }
+//
+//    public void saveDataToFile() {
+//        if(tableModel.getRowCount() == 0 ) {
+//            JOptionPane.showMessageDialog(null, "Tidak ada data untuk disimpan.");
+//            return;
+//        }
+//
+//        try {
+//            BufferedWriter writer = new BufferedWriter(new FileWriter("D:\\Kuliah Sem5\\Praktikum Pemrograman 2\\PP2\\data.txt"));
+//            for (int i = 0; i < tableModel.getRowCount(); i++) {
+//                StringBuilder row = new StringBuilder();
+//                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+//                    row.append(tableModel.getValueAt(i, j)).append(", ");
+//                }
+//                writer.write(row.toString().replaceAll(", $", ", "));
+//                writer.newLine();
+//            }
+//            JOptionPane.showMessageDialog(null, "Data berhasil disimpan.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage());
+//        }
+//    }
+//
+//
+//    public void hapusDataDariTabel() {
+//        int barisDipilih = formPanel.getTable().getSelectedRow();
+//        if(barisDipilih != -1){
+//            tableModel.removeRow(barisDipilih);
+//        }else {
+//            JOptionPane.showMessageDialog(formPanel, "Silakan pilih data yang ingin dihapus.");
+//        }
+//    }
 
 
 
