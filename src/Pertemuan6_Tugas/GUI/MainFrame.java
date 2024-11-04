@@ -35,14 +35,6 @@ public class MainFrame extends JFrame {
          menuBars = new MenuBars(this,mainPanel, formPanel, tableModel);
         setJMenuBar(menuBars.dapetinMenuBar());
 
-        Handler handler = new Handler(mainPanel,
-                menuBars.getLoadItem(),
-                menuBars.getSaveItem(),
-                menuBars.getExitItem(),
-                menuBars.getFormItem(),
-                tableModel, formPanel,
-                this);
-
 
         add(mainPanel, "grow");
         pack();

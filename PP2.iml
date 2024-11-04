@@ -29,5 +29,6 @@
     <orderEntry type="library" name="miglayout-core-11.4.2" level="project" />
     <orderEntry type="library" exported="" name="flatlaf-intellij-themes-3.5.2" level="project" />
     <orderEntry type="library" name="flatlaf-3.5.2" level="project" />
+    <orderEntry type="library" name="java" level="project" />
   </component>
 </module>

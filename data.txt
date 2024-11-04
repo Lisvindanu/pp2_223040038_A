@@ -1,1 +1,1 @@
-Lisvindanu, 234234, Pria, Ya, Giro, 30 Juta, Sun Nov 03 05:48:44 WIB 2024, Pelajar, sdfg
+Lisvindanu, 223040038, Pria, Tidak, Tabungan, 30 Juta, Sun Aug 15 00:00:00 WIB 2004, Pelajar, Uang Tabungan semasa berkuliah

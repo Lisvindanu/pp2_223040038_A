@@ -33,10 +33,6 @@ public class FormPanel extends JPanel  {
     private JTable table;
     private DefaultTableModel tableModel;
 
-//    public DefaultTableModel getTableModel() {
-//        return tableModel;
-//    }
-
     public FormPanel(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
         System.out.println("Model identity in FormPanel: " + System.identityHashCode(tableModel));
@@ -200,3 +196,5 @@ public class FormPanel extends JPanel  {
         });
     }
 }
+
+
