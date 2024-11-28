@@ -1,1 +1,2 @@
 Lisvindanu, 223040038, Pria, Tidak, Tabungan, 30 Juta, Sun Aug 15 00:00:00 WIB 2004, Pelajar, Uang Tabungan semasa berkuliah
+Caca, 0808332233, Pria, Ya, Tabungan, 50 Juta, Thu Mar 25 00:00:00 WIB 2004, Wiraswasta, Saya adalah marsa
