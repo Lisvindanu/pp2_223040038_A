@@ -18,6 +18,5 @@
 
         <mapper class="main.java.pertemuan8.Latihan.mapper.JenisMemberMapper" />
         <mapper class="main.java.pertemuan8.Latihan.mapper.MemberMapper" />
-<!--        <package name="main.java.pertemuan8.Latihan.mapper" />-->
     </mappers>
 </configuration>

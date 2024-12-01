@@ -1,8 +1,8 @@
 package main.java.Test;
 
-import main.java.pertemuan8.main.Main;
-import main.java.pertemuan8.mapper.JenisMemberMapper;
-import main.java.pertemuan8.model.JenisMember;
+import main.java.pertemuan8.Latihan.main.Main;
+import main.java.pertemuan8.Latihan.mapper.JenisMemberMapper;
+import main.java.pertemuan8.Latihan.model.JenisMember;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
