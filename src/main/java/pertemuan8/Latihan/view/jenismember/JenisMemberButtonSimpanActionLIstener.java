@@ -22,7 +22,7 @@ public class JenisMemberButtonSimpanActionLIstener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String nama = this.jenisMemberFrame.getNama();
         if (nama.isEmpty()) {
-            this.jenisMemberFrame.showAlert("Jenis Member gaboleh kosong");
+            this.jenisMemberFrame.showAlert("Jenis Member tidak boleh kosong");
         } else {
             JenisMember jenismember = new JenisMember();
             jenismember.setId(UUID.randomUUID().toString());

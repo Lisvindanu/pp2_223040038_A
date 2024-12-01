@@ -20,7 +20,7 @@ public class JenisMemberButtonDeleteActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         int selectedRow = jenisMemberFrame.getSelectedRowIndex();
-        System.out.println("Selected Row: " + selectedRow); // Debugging line
+        System.out.println("Selected Row: " + selectedRow);
 
         if (selectedRow != -1) {
             JenisMember jenisMemberYangDipilih = jenisMemberFrame.tableModel.getJenisMemberAt(selectedRow);

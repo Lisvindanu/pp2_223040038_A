@@ -16,7 +16,6 @@ public class MemberButtonUpdateActionListener implements ActionListener {
         this.memberDao = memberDao;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         int RowYangDipilih = memberFrame.getSelectedRowIndex();

@@ -16,9 +16,6 @@ public class MemberButtonDeleteActionListener implements ActionListener {
         this.memberDao = memberDao;
     }
 
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         int selectedRow = memberFrame.getSelectedRowIndex();
