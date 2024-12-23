@@ -30,13 +30,13 @@ public class ProductControllerLocal {
     public ProductControllerLocal(ProductView view) {
         this.view = view;
 
-        // Gunakan MyBatisUtil untuk mendapatkan session dan mapper
+
         this.session = MyBatisUtil.getSqlSession();
         this.mapper = this.session.getMapper(ProductMapperLocal.class);
 
         initializeCategoryAndGenre();
 
-        // Tambahkan listener untuk setiap operasi
+        //listener untuk setiap operasi
         this.view.addAddProductListener(new AddProductListener());
         this.view.addUpdateProductListener(new UpdateProductListener());
         this.view.addDeleteProductListener(new DeleteProductListener());
@@ -139,7 +139,7 @@ public class ProductControllerLocal {
 
         private ImageIcon createImageIcon(String imageUrl) {
             try {
-                // Use HTTPS instead of HTTP
+
                 if (imageUrl.startsWith("/")) {
                     imageUrl = "https://virtual-realm.my.id" + imageUrl;
                 } else {
