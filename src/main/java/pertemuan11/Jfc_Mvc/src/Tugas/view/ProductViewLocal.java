@@ -29,6 +29,8 @@ public class ProductViewLocal extends JFrame {
     private JList<String> productList;
     private DefaultListModel<String> listModel;
     private File selectedImageFile;
+    private JButton exportPdfButton;
+
 
     private JTable productTable;
     private DefaultTableModel tableModel;
@@ -95,6 +97,8 @@ public class ProductViewLocal extends JFrame {
         updateButton = createStyledButton("Update", PRIMARY_COLOR);
         deleteButton = createStyledButton("Delete", PRIMARY_COLOR);
         refreshButton = createStyledButton("Refresh", SECONDARY_COLOR);
+        exportPdfButton = createStyledButton("Export PDF", SECONDARY_COLOR);
+
 
         // Initialize table
         String[] columnNames = {"ID", "Name", "Price", "Quantity", "Category", "Genre", "Image"};
@@ -189,6 +193,30 @@ public class ProductViewLocal extends JFrame {
         return panel;
     }
 
+//    private JPanel createListAndTablePanel() {
+//        JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[40%][60%][]"));
+//        panel.setBackground(Color.WHITE);
+//        panel.setBorder(BorderFactory.createCompoundBorder(
+//                BorderFactory.createLineBorder(SECONDARY_COLOR),
+//                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+//        ));
+//
+//        // Add list with scroll pane
+//        JScrollPane listScrollPane = new JScrollPane(productList);
+//        listScrollPane.getViewport().setBackground(Color.WHITE);
+//        panel.add(listScrollPane, "grow, wrap");
+//
+//        // Add table with scroll pane
+//        JScrollPane tableScrollPane = new JScrollPane(productTable);
+//        tableScrollPane.getViewport().setBackground(Color.WHITE);
+//        panel.add(tableScrollPane, "grow, wrap");
+//
+//        // Add refresh button
+//        panel.add(refreshButton, "right, width 100!");
+//
+//        return panel;
+//    }
+
     private JPanel createListAndTablePanel() {
         JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[40%][60%][]"));
         panel.setBackground(Color.WHITE);
@@ -207,11 +235,16 @@ public class ProductViewLocal extends JFrame {
         tableScrollPane.getViewport().setBackground(Color.WHITE);
         panel.add(tableScrollPane, "grow, wrap");
 
-        // Add refresh button
-        panel.add(refreshButton, "right, width 100!");
+        // Add buttons panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(exportPdfButton);
+        buttonPanel.add(refreshButton);
+        panel.add(buttonPanel, "right");
 
         return panel;
     }
+
 
     // Helper methods for styling components
     private JTextField createStyledTextField() {
@@ -398,5 +431,10 @@ public class ProductViewLocal extends JFrame {
     public void clearListSelection() {
         productList.clearSelection();
     }
+
+    public void addExportPdfListener(ActionListener listener) {
+        exportPdfButton.addActionListener(listener);
+    }
+
 
 }

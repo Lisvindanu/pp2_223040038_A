@@ -17,7 +17,6 @@
     </environments>
     <mappers>
 
-<!--        <mapper class="main.java.pertemuan11.Jfc_Mvc.src.Tugas.model.nama mapper" />-->
         <mapper class="main.java.pertemuan11.Jfc_Mvc.src.Tugas.model.ProductMapperLocal"></mapper>
 <!--        <mapper class="main.java.pertemuan11.Jfc_Mvc.src.Tugas.model.ProductMapper"></mapper>-->
 

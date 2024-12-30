@@ -5,7 +5,13 @@ import main.java.pertemuan11.Jfc_Mvc.src.Tugas.model.Product;
 import main.java.pertemuan11.Jfc_Mvc.src.Tugas.model.ProductMapperLocal;
 import main.java.pertemuan11.Jfc_Mvc.src.Tugas.util.SSLUtils;
 import main.java.pertemuan11.Jfc_Mvc.src.Tugas.view.ProductView;
+import main.java.pertemuan11.Jfc_Mvc.src.Tugas.view.ProductViewLocal;
 import org.apache.ibatis.session.SqlSession;
+import main.java.pertemuan11.Jfc_Mvc.src.Tugas.view.ProductViewLocal;
+import main.java.pertemuan11.Jfc_Mvc.src.Tugas.util.ProductPdf;
+import main.java.pertemuan11.Jfc_Mvc.src.Tugas.view.ProgressDialog;
+
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,21 +28,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ProductControllerLocal {
-    private final ProductView view;
+    private final ProductViewLocal view;
     private final ProductMapperLocal mapper;
     private final SqlSession session;
     private final List<Long> productIds = new ArrayList<>();
 
-    public ProductControllerLocal(ProductView view) {
+    public ProductControllerLocal(ProductViewLocal view) {
         this.view = view;
 
 
         this.session = MyBatisUtil.getSqlSession();
         this.mapper = this.session.getMapper(ProductMapperLocal.class);
 
+
         initializeCategoryAndGenre();
 
         //listener untuk setiap operasi
+        this.view.addExportPdfListener(new ExportPdfListener());
         this.view.addAddProductListener(new AddProductListener());
         this.view.addUpdateProductListener(new UpdateProductListener());
         this.view.addDeleteProductListener(new DeleteProductListener());
@@ -174,10 +182,10 @@ public class ProductControllerLocal {
                 // Tambahkan parameter form-data
 
 
-                writeFormField(writer, boundary, "server", "YOUR_SERVER");
-                writeFormField(writer, boundary, "port", "YOUR_PORT");
-                writeFormField(writer, boundary, "username", "YOUR_USERNAME");
-                writeFormField(writer, boundary, "password", "YOUR_PASSWORD");
+                writeFormField(writer, boundary, "server", "virtual-realm.my.id");
+                writeFormField(writer, boundary, "port", "8435");
+                writeFormField(writer, boundary, "username", "virtual6");
+                writeFormField(writer, boundary, "password", "Lisvindanu15082004");
 
                 // Tambahkan file gambar
                 writeFile(writer, os, boundary, "file", imageFile);
@@ -364,4 +372,76 @@ public class ProductControllerLocal {
             }
         }
     }
+
+    class ExportPdfListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ProgressDialog progressDialog = new ProgressDialog(
+                    (JFrame) SwingUtilities.getWindowAncestor(view),
+                    "Generating PDF Report"
+            );
+
+            SwingWorker<Void, Integer> worker = new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    try {
+                        publish(10); // Starting
+                        Thread.sleep(500);
+
+                        publish(30); // Fetching data
+                        List<Product> products = mapper.getAll();
+                        Thread.sleep(500);
+
+                        publish(70); // Generating PDF
+                        ProductPdf pdfGenerator = new ProductPdf();
+                        pdfGenerator.exportPdf(products);
+                        Thread.sleep(500);
+
+                        publish(100); // Finalizing
+                        return null;
+
+                    } catch (Exception ex) {
+                        throw new RuntimeException("Error generating PDF: " + ex.getMessage(), ex);
+                    }
+                }
+
+                @Override
+                protected void process(List<Integer> chunks) {
+                    int progress = chunks.get(chunks.size() - 1);
+                    progressDialog.updateProgress(progress);
+
+                    String status = switch (progress) {
+                        case 10 -> "Initializing...";
+                        case 30 -> "Fetching product data...";
+                        case 70 -> "Generating PDF...";
+                        case 100 -> "Finalizing...";
+                        default -> "Working...";
+                    };
+                    progressDialog.updateStatus(status);
+                }
+
+                @Override
+                protected void done() {
+                    progressDialog.dispose();
+                    try {
+                        get(); // Periksa exception
+                        JOptionPane.showMessageDialog(view,
+                                "PDF report has been generated successfully!\nLocation: "
+                                        + System.getProperty("user.dir"),
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(view,
+                                "Error generating PDF: " + ex.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            };
+
+            worker.execute();
+            progressDialog.setVisible(true);
+        }
+    }
+
 }
